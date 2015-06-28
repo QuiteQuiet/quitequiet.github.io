@@ -65,28 +65,20 @@ get = function(amount, tier) {
 			if (!passes) continue;
 
 			team.push(poke);
-			if (!acceptableWeakness(team))
-				team.splice(team.indexOf(poke), 1); // Remove the Pokemon again
-			if (isMega && team.indexOf(poke) >= 0)
-				hasMega = true;
-			attempts++;
-
-			// If the generation isn't done in 100 tries, just fill the
-			// rest of the team and exit. It would probably be a bad team
-			// anyway...
-			if (attempts > 100) {
-				while (team.length < 6)
-					passes = true; isMega = false;
-					poke = toId(getPokemon(tier));
-					for (i = 0; i < team.length; i++)
-						if (Pokedex[poke]['num'] === Pokedex[team[i]]['num'])
-							passes = false;
-					if (Pokedex[poke]['species'].indexOf('-Mega') >= 0) isMega = true;
-					if (hasMega && isMega) passes = false;
-					if (!passes) continue;
-					team.push(poke);
-				break;
+			// Only test team weakness for the first 100 attempts
+			// After that, just fill the team and hope it isn't super-weak
+			// to something common.
+			if (attempts <= 100) {
+				if (!acceptableWeakness(team))
+					team.splice(team.indexOf(poke), 1); // Remove the Pokemon again
+				if (isMega && team.indexOf(poke) >= 0)
+					hasMega = true;
+				attempts++;
+			} else {
+				if (team.length == 6)
+					break;
 			}
+
 		}
 		// Make the output pretty
 		for (i = 0; i < team.length; i++) {
