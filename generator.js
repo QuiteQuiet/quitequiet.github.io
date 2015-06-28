@@ -76,7 +76,15 @@ get = function(amount, tier) {
 			// anyway...
 			if (attempts > 100) {
 				while (team.length < 6)
-					team.push(toId(getPokemon(tier)));
+					passes = true; isMega = false;
+					poke = toId(getPokemon(tier));
+					for (i = 0; i < team.length; i++)
+						if (Pokedex[poke]['num'] === Pokedex[team[i]]['num'])
+							passes = false;
+					if (Pokedex[poke]['species'].indexOf('-Mega') >= 0) isMega = true;
+					if (hasMega && isMega) passes = false;
+					if (!passes) continue;
+					team.push(poke);
 				break;
 			}
 		}
