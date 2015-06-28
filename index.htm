@@ -1,21 +1,30 @@
 <!DOCTYPE HTML>
 <html>
-	<head><title>PS Nuzlocke</title></head>
+	<head>
+		<title>PS Nuzlocke</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
 	<body>
-		<div id="input">
-		Select a tier: 
-			<select id="tiers">
-				<option value="ou">OU</option>
-				<option value="uu">UU</option>
-				<option value="ru">RU</option>
-				<option value="nu" selected>NU</option>
-				<option value="pu">PU</option>
-			</select>
-			<button type="button" onclick="get(6, document.getElementById('tiers').value);">Generate new team</button>
-			<button type="button" onclick="get(1, document.getElementById('tiers').value);">Get new Pokemon</button>
-		</div>
+		<div id="div-left">
+			<div id="input">
+			Select a tier: 
+				<select id="tiers">
+					<option value="ou">OU</option>
+					<option value="uu">UU</option>
+					<option value="ru">RU</option>
+					<option value="nu" selected>NU</option>
+					<option value="pu">PU</option>
+				</select>
+				<button type="button" onclick="getNew(document.getElementById('tiers').value);">Generate new team</button>
+				<button type="button" onclick="getOne(document.getElementById('tiers').value);">Get new Pokemon</button>
+			</div>
 
-		<div id="output"></div>
+			<div id="output"></div>
+		</div>
+		<div id="div-right">
+			<div id="instruction"></div>
+			<div id="use-container"><h4>Pokemon used:</h4></div>
+		</div>
 		<script src="pokedex.json"></script>
 		<script src="types.json"></script>
 		<script src="tiers.json"></script>

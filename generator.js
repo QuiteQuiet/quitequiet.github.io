@@ -1,17 +1,25 @@
+var hasBeenUsed = [];
+Array.prototype.pushArray = function(arr) { this.push.apply(this, arr); };
 toId = function(thing) {
 	return thing.replace(/[^A-Za-z0-9]/g,'').toLowerCase();
-}
-getPokemon = function(tier) {
-	var canPick = Object.keys(Tiers[tier]);
-	return canPick[canPick.length * Math.random() << 0];
 };
-
+crossOut = function(button) {
+	var name = button.innerHTML;
+	var used = document.getElementById('use-container');
+	for (var i = 0; i < used.children.length; i++) {
+		if (used.children[i].innerText === name) {
+			used.children[i].innerHTML = '<strike class="dead">' + name + '</strike>';
+			break;
+		}
+	}
+	button.disabled = true;
+};
 acceptableWeakness = function(team) {
 	if (team.length === 0) return false;
 	var comp = {};
 	for (var t in Types)
 		comp[t] = {'weak':0,'res':0};
-	for (i = 0; i < team.length; i++) {
+	for (var i = 0; i < team.length; i++) {
 		var poke = team[i];
 		var types = Pokedex[poke]['types'];
 
@@ -40,23 +48,68 @@ acceptableWeakness = function(team) {
 	}
 	return true;
 };
-
+getPokemon = function(tier) {
+	var canPick = Object.keys(Tiers[tier]);
+	for (var i = 0; i < hasBeenUsed.length; i++) {
+		var index = canPick.indexOf(hasBeenUsed[i]);
+		if (index >= 0)
+			canPick.splice(index, 1);
+	}
+	return canPick[canPick.length * Math.random() << 0];
+};
+refillTeam = function(button, tier) {
+	var fainted = 0;
+	var curTeam = [];
+	var lookAt = button.previousElementSibling;
+	while (lookAt) {
+		if (lookAt.disabled) fainted++;
+		else curTeam.push(toId(lookAt.innerText));
+		lookAt = lookAt.previousElementSibling;
+	}
+	if (fainted > 0)
+		curTeam.pushArray(get(fainted, tier));
+	document.getElementById('output').innerHTML += makeOutput(curTeam);
+};
+makeOutput = function(team) {
+	// Log the picked pokemon as well as
+	// make the output pretty
+	var result = '<p>New team: ';
+	var used = document.getElementById('use-container');
+	for (var i = 0; i < team.length; i++) {
+		result += '<button class="team" onclick="crossOut(this);">' + Pokedex[team[i]]['species'] + '</button>';
+		if (i < 5) result += ' / ';
+		// Show used Pokemon
+		var inList = false;
+		for (var j = 0; j < used.children.length; j++)
+			if (used.children[j].innerText === Pokedex[team[i]]['species'])
+				inList = true;
+		if (!inList) used.innerHTML += '<p id="used">' + Pokedex[team[i]]['species'] + '</p>';
+		// Save which pokemon have been used
+		hasBeenUsed.push(Pokedex[team[i]]['species']);
+	}
+	result += '<button id="refill" onclick="refillTeam(this, document.getElementById(\'tiers\').value);">Refill team</button></p>';
+	return result;
+};
 get = function(amount, tier) {
-	var result = '';
-	if (amount == 1) {
-		result = '<p>New Pokemon: ' + getPokemon(tier) + '</p>';
+	if (amount < 6) {
+		var picks = [];
+		for (var i = 0; i < amount; i++) {
+			var mon = getPokemon(tier);
+			picks.push(toId(mon));
+			hasBeenUsed.push(mon);
+		}
+		return picks;
 	} else {
 		var team = [];
 		var hasMega = false;
 		var attempts = 0;
-		result = '<p>New team: '
-		// make a team
+		// Make a team
 		while (team.length < 6 || !acceptableWeakness(team)) {
 			var passes = true;
 			var isMega = false;
 			var poke = toId(getPokemon(tier));
 
-			for (i = 0; i < team.length; i++)
+			for (var i = 0; i < team.length; i++)
 				if (Pokedex[poke]['num'] === Pokedex[team[i]]['num'])
 					passes = false;
 			if (Pokedex[poke]['species'].indexOf('-Mega') >= 0) isMega = true;
@@ -80,13 +133,13 @@ get = function(amount, tier) {
 			}
 
 		}
-		// Make the output pretty
-		for (i = 0; i < team.length; i++) {
-			result += Pokedex[team[i]]['species']
-			if (i < 5) result += ' / ';
-		}
-		result += '</p>';
+		return team;
 	}
-	to = document.getElementById('output');
-	to.innerHTML += result;
+};
+getNew = function(tier) {
+	team = get(6, tier);
+	document.getElementById('output').innerHTML += makeOutput(team);
+};
+getOne = function(tier) {
+	document.getElementById('output').innerHTML += '<p>New Pokemon: ' + getPokemon(tier) + '</p>';
 };

@@ -1,0 +1,25 @@
+#used {
+	margin: 1px;
+	padding: 1px;
+}
+#div-left {
+	float: left;
+	width: 50%;
+}
+#div-right {
+	overflow: hidden;
+}
+#use-container {
+	overflow: auto;
+}
+button.team {
+	background: none;
+	border: none;
+}
+button.team:disabled {
+	text-decoration: line-through;
+	color: #E90909;
+}
+strike.dead {
+	color: #E90909;
+}
