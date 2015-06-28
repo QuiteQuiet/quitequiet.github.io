@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html>
+	<head><title>PS Nuzlocke</title></head>
+	<body>
+		<div id="input">
+		Select a tier: 
+			<select id="tiers">
+				<option value="ou">OU</option>
+				<option value="uu">UU</option>
+				<option value="ru">RU</option>
+				<option value="nu" selected>NU</option>
+				<option value="pu">PU</option>
+			</select>
+			<button type="button" onclick="get(6, document.getElementById('tiers').value);">Generate new team</button>
+			<button type="button" onclick="get(1, document.getElementById('tiers').value);">Get new Pokemon</button>
+		</div>
+
+		<div id="output"></div>
+		<script src="pokedex.json"></script>
+		<script src="types.json"></script>
+		<script src="tiers.json"></script>
+		<script src="generator.js"></script>
+	</body>
+</html>
