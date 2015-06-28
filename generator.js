@@ -74,9 +74,11 @@ get = function(amount, tier) {
 			// If the generation isn't done in 100 tries, just fill the
 			// rest of the team and exit. It would probably be a bad team
 			// anyway...
-			if (attempts > 100)
+			if (attempts > 100) {
 				while (team.length < 6)
 					team.push(toId(getPokemon(tier)));
+				break;
+			}
 		}
 		// Make the output pretty
 		for (i = 0; i < team.length; i++) {
