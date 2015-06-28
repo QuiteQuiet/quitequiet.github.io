@@ -61,6 +61,7 @@ refillTeam = function(button, tier) {
 	var fainted = 0;
 	var curTeam = [];
 	var lookAt = button.previousElementSibling;
+	
 	while (lookAt) {
 		if (lookAt.disabled) fainted++;
 		else curTeam.push(toId(lookAt.innerText));
@@ -68,6 +69,7 @@ refillTeam = function(button, tier) {
 	}
 	if (fainted > 0)
 		curTeam.pushArray(get(fainted, tier));
+	button.disabled = true;
 	document.getElementById('output').innerHTML += makeOutput(curTeam);
 };
 makeOutput = function(team) {
