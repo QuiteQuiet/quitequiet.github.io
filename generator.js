@@ -1,7 +1,20 @@
 var hasBeenUsed = [];
-Array.prototype.pushArray = function(arr) { this.push.apply(this, arr); };
 toId = function(thing) {
 	return thing.replace(/[^A-Za-z0-9]/g,'').toLowerCase();
+};
+legalToUse = function(poke, team) {
+	var passes = true;
+	var hasMega = false;
+	var isMega = false;
+	for (var i = 0; i < team.length; i++) {
+		if (Pokedex[poke]['num'] === Pokedex[team[i]]['num'])
+			passes = false;
+		if (Pokedex[team[i]]['species'].indexOf('-Mega') >= 0)
+			hasMega = true;
+	}
+	if (Pokedex[poke]['species'].indexOf('-Mega') >= 0) isMega = true;
+	if (hasMega && isMega) passes = false;
+	return passes;
 };
 crossOut = function(button) {
 	var name = button.innerHTML;
@@ -59,20 +72,24 @@ getPokemon = function(tier) {
 	return canPick[canPick.length * Math.random() << 0];
 };
 refillTeam = function(button, tier) {
-	var fainted = 6;
 	var curTeam = [];
+	var hasMega = false;
 	var lookAt = button.previousElementSibling;
-	
+
 	while (lookAt) {
 		if (!lookAt.disabled) {
-			fainted--;
-			curTeam.push(toId(lookAt.textContent));
+			var poke = toId(lookAt.textContent);
+			if (Pokedex[poke]['species'].indexOf('-Mega') >= 0) hasMega = true;
+			curTeam.push(poke);
 			lookAt.disabled = true;
 		}
 		lookAt = lookAt.previousElementSibling;
 	}
-	if (fainted > 0)
-		curTeam.pushArray(get(fainted, tier));
+	while (curTeam.length < 6) {
+		var poke = toId(getPokemon(tier));
+		if (!legalToUse(poke, curTeam)) continue;
+		curTeam.push(poke);
+	}
 	button.disabled = true;
 	document.getElementById('output').innerHTML += makeOutput(curTeam);
 };
@@ -111,17 +128,9 @@ get = function(amount, tier) {
 		var attempts = 0;
 		// Make a team
 		while (team.length < 6 || !acceptableWeakness(team)) {
-			var passes = true;
-			var isMega = false;
 			var poke = toId(getPokemon(tier));
 
-			for (var i = 0; i < team.length; i++)
-				if (Pokedex[poke]['num'] === Pokedex[team[i]]['num'])
-					passes = false;
-			if (Pokedex[poke]['species'].indexOf('-Mega') >= 0) isMega = true;
-			if (hasMega && isMega) passes = false;
-
-			if (!passes) continue;
+			if (!legalToUse(poke, team)) continue;
 
 			team.push(poke);
 			// Only test team weakness for the first 100 attempts
@@ -130,8 +139,6 @@ get = function(amount, tier) {
 			if (attempts <= 100) {
 				if (!acceptableWeakness(team))
 					team.splice(team.indexOf(poke), 1); // Remove the Pokemon again
-				if (isMega && team.indexOf(poke) >= 0)
-					hasMega = true;
 				attempts++;
 			} else {
 				if (team.length == 6)
