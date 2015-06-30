@@ -34,3 +34,6 @@ button.team-dead:disabled {
 	text-decoration: line-through;
 	color: #E90909;
 }
+button#reset-button {
+	float: right;
+}

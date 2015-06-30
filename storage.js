@@ -1,7 +1,9 @@
 // Anything storage related goes here
 clearEverything = function() {
-	var usage = document.getElementById('use-container').children;
-	usage.children = usage.children.slice(0);
+	document.getElementById('use-container').innerHTML = '<h4>Pokemon used:</h4>';
+	document.getElementById('output').innerHTML = '';
+	localStorage.removeItem('ps_nuzlocke_data');
+	hasBeenUsed = [];
 };
 window.onload = function() {
 	var data = localStorage.getItem('ps_nuzlocke_data');
