@@ -27,7 +27,7 @@ window.onload = function() {
 	document.getElementById('output').innerHTML += team;
 	document.getElementById('use-container').innerHTML += used;
 };
-window.onunload = function() {
+window.onbeforeunload = function() {
 	var pokemonList = document.getElementById('use-container').children;
 	if (!pokemonList.length)
 		return;
