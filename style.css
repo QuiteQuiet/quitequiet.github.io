@@ -1,6 +1,12 @@
+/* Text options */
 h4 {
 	margin: 5px;
 }
+strike.dead {
+	color: #E90909;
+}
+
+/* Divs */
 #used {
 	margin: 1px;
 	padding: 1px;
@@ -15,17 +21,16 @@ h4 {
 #use-container {
 	overflow: auto;
 }
+
+/* Buttons */
 button.team-alive, button.team-dead {
 	background: none;
 	border: none;
 }
 button.team-alive:disabled {
-	color: #23a943;
+	color: #238943;
 }
 button.team-dead:disabled {
 	text-decoration: line-through;
-	color: #E90909;
-}
-strike.dead {
 	color: #E90909;
 }
