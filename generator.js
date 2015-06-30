@@ -145,6 +145,7 @@ get = function(amount, tier) {
 getNew = function(tier) {
 	team = get(6, tier);
 	document.getElementById('output').innerHTML += makeOutput(team);
+	document.getElementById('new-team').disabled = true;
 };
 getOne = function(tier) {
 	document.getElementById('output').innerHTML += '<p>New Pokemon: ' + getPokemon(tier) + '</p>';

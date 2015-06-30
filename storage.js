@@ -4,6 +4,7 @@ clearEverything = function() {
 	document.getElementById('output').innerHTML = '';
 	localStorage.removeItem('ps_nuzlocke_data');
 	hasBeenUsed = [];
+	document.getElementById('new-team').disabled = false;
 };
 window.onload = function() {
 	var data = localStorage.getItem('ps_nuzlocke_data');
