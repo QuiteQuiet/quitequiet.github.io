@@ -39,5 +39,8 @@ window.onunload = function() {
 		var item = pokemonList[i];
 		storeData[(item.children.length > 0 ? 'dead' : 'team')].push(item.innerText);
 	}
-	localStorage.setItem('ps_nuzlocke_data', JSON.stringify(storeData));
+	if (storeData['team'].length > 0)
+		localStorage.setItem('ps_nuzlocke_data', JSON.stringify(storeData));
+	else
+		localStorage.removeItem('ps_nuzlocke_data');
 };
