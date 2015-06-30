@@ -26,6 +26,7 @@ window.onload = function() {
 	}
 	document.getElementById('output').innerHTML += team;
 	document.getElementById('use-container').innerHTML += used;
+	document.getElementById('new-team').disabled = true;
 };
 window.onbeforeunload = function() {
 	var pokemonList = document.getElementById('use-container').children;
