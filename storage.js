@@ -37,7 +37,7 @@ window.onbeforeunload = function() {
 	// no relevant information.
 	for (var i = 1; i < pokemonList.length; i++) {
 		var item = pokemonList[i];
-		storeData[(item.children.length > 0 ? 'dead' : 'team')].push(item.innerText);
+		storeData[(item.children.length > 0 ? 'dead' : 'team')].push(item.textContent);
 	}
 	if (storeData['team'].length > 0)
 		localStorage.setItem('ps_nuzlocke_data', JSON.stringify(storeData));

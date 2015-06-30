@@ -7,7 +7,7 @@ crossOut = function(button) {
 	var name = button.innerHTML;
 	var used = document.getElementById('use-container');
 	for (var i = 0; i < used.children.length; i++) {
-		if (used.children[i].innerText === name) {
+		if (used.children[i].textContent === name) {
 			used.children[i].innerHTML = '<strike class="dead">' + name + '</strike>';
 			break;
 		}
@@ -66,7 +66,7 @@ refillTeam = function(button, tier) {
 	while (lookAt) {
 		if (!lookAt.disabled) {
 			fainted--;
-			curTeam.push(toId(lookAt.innerText));
+			curTeam.push(toId(lookAt.textContent));
 			lookAt.disabled = true;
 		}
 		lookAt = lookAt.previousElementSibling;
@@ -87,7 +87,7 @@ makeOutput = function(team) {
 		// Show used Pokemon
 		var inList = false;
 		for (var j = 0; j < used.children.length; j++)
-			if (used.children[j].innerText === Pokedex[team[i]]['species'])
+			if (used.children[j].textContent === Pokedex[team[i]]['species'])
 				inList = true;
 		if (!inList) used.innerHTML += '<p id="used">' + Pokedex[team[i]]['species'] + '</p>';
 		// Save which pokemon have been used
