@@ -12,6 +12,7 @@ crossOut = function(button) {
 			break;
 		}
 	}
+	button.className = 'team-dead';
 	button.disabled = true;
 };
 acceptableWeakness = function(team) {
@@ -64,7 +65,10 @@ refillTeam = function(button, tier) {
 	
 	while (lookAt) {
 		if (lookAt.disabled) fainted++;
-		else curTeam.push(toId(lookAt.innerText));
+		else {
+			curTeam.push(toId(lookAt.innerText));
+			lookAt.disabled = true;
+		}
 		lookAt = lookAt.previousElementSibling;
 	}
 	if (fainted > 0)
@@ -78,7 +82,7 @@ makeOutput = function(team) {
 	var result = '<p>New team: ';
 	var used = document.getElementById('use-container');
 	for (var i = 0; i < team.length; i++) {
-		result += '<button class="team" onclick="crossOut(this);">' + Pokedex[team[i]]['species'] + '</button>';
+		result += '<button class="team-alive" onclick="crossOut(this);">' + Pokedex[team[i]]['species'] + '</button>';
 		if (i < 5) result += ' / ';
 		// Show used Pokemon
 		var inList = false;

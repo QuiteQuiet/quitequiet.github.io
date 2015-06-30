@@ -15,11 +15,14 @@ h4 {
 #use-container {
 	overflow: auto;
 }
-button.team {
+button.team-alive, button.team-dead {
 	background: none;
 	border: none;
 }
-button.team:disabled {
+button.team-alive:disabled {
+	color: #23a943;
+}
+button.team-dead:disabled {
 	text-decoration: line-through;
 	color: #E90909;
 }
