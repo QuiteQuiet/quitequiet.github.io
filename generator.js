@@ -59,13 +59,13 @@ getPokemon = function(tier) {
 	return canPick[canPick.length * Math.random() << 0];
 };
 refillTeam = function(button, tier) {
-	var fainted = 0;
+	var fainted = 6;
 	var curTeam = [];
 	var lookAt = button.previousElementSibling;
 	
 	while (lookAt) {
-		if (lookAt.disabled) fainted++;
-		else {
+		if (!lookAt.disabled) {
+			fainted--;
 			curTeam.push(toId(lookAt.innerText));
 			lookAt.disabled = true;
 		}
