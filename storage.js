@@ -1,6 +1,6 @@
 // Anything storage related goes here
 clearEverything = function() {
-	document.getElementById('use-container').innerHTML = '<h4>Pokemon used:</h4>';
+	document.getElementById('use-container').innerHTML = '';
 	document.getElementById('output').innerHTML = '';
 	localStorage.removeItem('ps_nuzlocke_data');
 	hasBeenUsed = [];

@@ -20,6 +20,15 @@ strike.dead {
 }
 #use-container {
 	overflow: auto;
+	-webkit-column-count: 5; /* Chrome, Safari, Opera */
+	-webkit-column-gap: 20px;
+	-webkit-column-fill: auto;
+	-moz-column-count: 5; /* Firefox */
+	-moz-column-gap: 20px;
+	-moz-column-fill: auto;
+	column-count: 5;
+	column-fill: auto;
+	column-gap: 20px;
 }
 
 /* Buttons */
