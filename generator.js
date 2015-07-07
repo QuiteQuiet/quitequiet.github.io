@@ -96,7 +96,7 @@ refillTeam = function(button, tier) {
 makeOutput = function(team) {
 	// Log the picked pokemon as well as
 	// make the output pretty
-	var result = '<p>New team: ';
+	var result = '<p id="team-list">New team: ';
 	var used = document.getElementById('use-container');
 	for (var i = 0; i < team.length; i++) {
 		result += '<button class="team-alive" onclick="crossOut(this);">' + Pokedex[team[i]]['species'] + '</button>';
