@@ -9,10 +9,10 @@ legalToUse = function(poke, team) {
 	for (var i = 0; i < team.length; i++) {
 		if (Pokedex[poke]['num'] === Pokedex[team[i]]['num'])
 			passes = false;
-		if (Pokedex[team[i]]['species'].indexOf('-Mega') >= 0)
+		if (Pokedex[team[i]]['name'].indexOf('-Mega') >= 0)
 			hasMega = true;
 	}
-	if (Pokedex[poke]['species'].indexOf('-Mega') >= 0) isMega = true;
+	if (Pokedex[poke]['name'].indexOf('-Mega') >= 0) isMega = true;
 	if (hasMega && isMega) passes = false;
 	return passes;
 };
@@ -79,7 +79,7 @@ refillTeam = function(button, tier) {
 	while (lookAt) {
 		if (!lookAt.disabled) {
 			var poke = toId(lookAt.textContent);
-			if (Pokedex[poke]['species'].indexOf('-Mega') >= 0) hasMega = true;
+			if (Pokedex[poke]['name'].indexOf('-Mega') >= 0) hasMega = true;
 			curTeam.push(poke);
 			lookAt.disabled = true;
 		}
@@ -99,16 +99,16 @@ makeOutput = function(team) {
 	var result = '<p id="team-list">New team: ';
 	var used = document.getElementById('use-container');
 	for (var i = 0; i < team.length; i++) {
-		result += '<button class="team-alive" onclick="crossOut(this);">' + Pokedex[team[i]]['species'] + '</button>';
+		result += '<button class="team-alive" onclick="crossOut(this);">' + Pokedex[team[i]]['name'] + '</button>';
 		if (i < 5) result += ' / ';
 		// Show used Pokemon
 		var inList = false;
 		for (var j = 0; j < used.children.length; j++)
-			if (used.children[j].textContent === Pokedex[team[i]]['species'])
+			if (used.children[j].textContent === Pokedex[team[i]]['name'])
 				inList = true;
-		if (!inList) used.innerHTML += '<p id="used">' + Pokedex[team[i]]['species'] + '</p>';
+		if (!inList) used.innerHTML += '<p id="used">' + Pokedex[team[i]]['name'] + '</p>';
 		// Save which pokemon have been used
-		hasBeenUsed.push(Pokedex[team[i]]['species']);
+		hasBeenUsed.push(Pokedex[team[i]]['name']);
 	}
 	result += '<button id="refill" onclick="refillTeam(this, document.getElementById(\'tiers\').value);">Refill team</button></p>';
 	return result;
